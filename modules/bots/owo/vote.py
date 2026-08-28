@@ -18,7 +18,7 @@ class Vote:
             await asyncio.sleep(3600)
             return
         client.logger.info('Voting on top.gg')
-        if await asyncio.to_thread(topgg.vote, bot_id, cookie):
+        if await asyncio.to_thread(topgg.vote, str(bot_id), cookie):
             client.logger.info('Voted (next in 12h)')
             await asyncio.sleep(12 * 3600)
         else:
