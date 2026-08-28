@@ -12,8 +12,13 @@ class Vote:
         bot_id = getattr(client.owo_bot, 'id', None)
         if not bot_id:
             return
+        cookie = client.config.get('vote_cookie')
+        if not cookie:
+            client.logger.warning('No vote_cookie configured for this account, skipping vote (see data/owo.json)')
+            await asyncio.sleep(3600)
+            return
         client.logger.info('Voting on top.gg')
-        if await asyncio.to_thread(topgg.vote, bot_id, client.token):
+        if await asyncio.to_thread(topgg.vote, bot_id, cookie):
             client.logger.info('Voted (next in 12h)')
             await asyncio.sleep(12 * 3600)
         else:
