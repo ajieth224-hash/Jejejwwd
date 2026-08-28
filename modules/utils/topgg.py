@@ -64,9 +64,12 @@ def find_browser():
     return None
 
 
-def _vote(bot_id, token):
+def _vote(bot_id, cookie):
     if not VOTE_SERVICE_URL:
         logger.error('VOTE_SERVICE_URL is not set - the vote service is not configured, skipping vote')
+        return False
+    if not cookie:
+        logger.warning('No vote_cookie configured for this account - skipping vote')
         return False
 
     settings = read_json('data/settings.json', {}) or {}
@@ -77,7 +80,7 @@ def _vote(bot_id, token):
     try:
         resp = requests.post(
             f'{VOTE_SERVICE_URL.rstrip("/")}/vote',
-            json={'token': token, 'botId': bot_id, 'captchalyApiKey': captchaly_key},
+            json={'cookie': cookie, 'botId': bot_id, 'captchalyApiKey': captchaly_key},
             headers={'x-vote-secret': VOTE_SERVICE_SECRET or ''},
             timeout=200,
         )
@@ -99,9 +102,9 @@ def _vote(bot_id, token):
     return False
 
 
-def vote(bot_id, token):
+def vote(bot_id, cookie):
     with _lock:
         if _stop.is_set():
             logger.warning('Vote skipped (stop requested)')
             return False
-        return _vote(bot_id, token)
+        return _vote(bot_id, cookie)
