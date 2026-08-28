@@ -15,6 +15,7 @@ OWO_DEFAULT_CONFIG = {
     'daily': True,
     'boss': True,
     'boss_channel_id': None,
+    'vote_cookie': None,
     'huntbot': True,
     'giveaway': True,
 
