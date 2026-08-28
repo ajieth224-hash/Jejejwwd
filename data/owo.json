@@ -1,0 +1,50 @@
+{
+    "token": {
+        "prefix": "owo",
+        "check_status": true,
+
+        "channels_id": [1, 2, 3],
+        "changing_channel": {
+            "when_mentioned": true,
+            "when_challenge": true,
+            "after_elapsed_time": {"min": 300, "max": 600}
+        },
+
+        "checklist": true,
+        "quest": true,
+        "vote": true,
+        "daily": true,
+        "boss": true,
+        "boss_channel_id": null,
+        "vote_cookie": null,
+        "huntbot": true,
+        "giveaway": true,
+
+        "spam": {
+            "hunt": true,
+            "battle": true,
+            "owo/uwu": true,
+            "delay": {"min": 0.5, "max": 1},
+            "cooldown": {"min": 15, "max": 20}
+        },
+
+        "gem": {
+            "use": false,
+            "couple": true,
+            "best": false,
+            "star": false,
+            "glitch": true,
+            "openning": {"box": true, "crate": true, "flootbox": false}
+        },
+
+        "gamble": {
+            "lottery": {"mode": false, "amount": 1},
+            "slot": {"mode": false, "bet": 1, "rate": 2, "max": 250000},
+            "coinflip": {"mode": false, "bet": 1, "rate": 2, "max": 250000},
+            "blackjack": {"mode": false, "bet": 1, "rate": 2, "max": 250000},
+            "highlow": {"mode": false, "bet": 10, "rate": 2, "max": 250000},
+            "delay": {"min": 10, "max": 15},
+            "cooldown": {"min": 30, "max": 60}
+        }
+    }
+}

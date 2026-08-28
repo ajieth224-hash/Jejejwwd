@@ -1,0 +1,9 @@
+{
+    "discord_webhook": {
+        "url": "https://discord.com/api/webhooks/...",
+        "content": "@everyone @here <@&role_id> <@user_id>"
+    },
+    "captchaly": {
+        "api_key": ""
+    }
+}
