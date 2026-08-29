@@ -80,7 +80,7 @@ def _vote(bot_id, cookie, source):
     try:
         resp = requests.post(
             f'{VOTE_SERVICE_URL.rstrip("/")}/vote',
-            json={'cookie': cookie, 'botId': bot_id, 'captchalyApiKey': captchaly_key},
+            json={'cookie': cookie, 'botId': str(bot_id), 'captchalyApiKey': captchaly_key},
             headers={'x-vote-secret': VOTE_SERVICE_SECRET or ''},
             timeout=200,
         )
