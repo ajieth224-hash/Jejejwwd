@@ -64,18 +64,18 @@ def find_browser():
     return None
 
 
-def _vote(bot_id, cookie):
+def _vote(bot_id, cookie, source):
     if not VOTE_SERVICE_URL:
-        logger.error('VOTE_SERVICE_URL is not set - the vote service is not configured, skipping vote')
+        logger.error(f'[{source}] VOTE_SERVICE_URL is not set - the vote service is not configured, skipping vote')
         return False
     if not cookie:
-        logger.warning('No vote_cookie configured for this account - skipping vote')
+        logger.warning(f'[{source}] No cookie configured for this account - skipping vote')
         return False
 
     settings = read_json('data/settings.json', {}) or {}
     captchaly_key = (settings.get('captchaly') or {}).get('api_key')
 
-    logger.info(f'Voting for bot {bot_id} (via vote service)')
+    logger.info(f'[{source}] Voting for bot {bot_id} (via vote service)')
 
     try:
         resp = requests.post(
@@ -85,26 +85,26 @@ def _vote(bot_id, cookie):
             timeout=200,
         )
     except requests.exceptions.RequestException as e:
-        logger.error(f'Could not reach vote service: {e}')
+        logger.error(f'[{source}] Could not reach vote service: {e}')
         return False
 
     try:
         result = resp.json()
     except ValueError:
-        logger.error(f'Vote service returned invalid response (status {resp.status_code}): {resp.text[:500]!r}')
+        logger.error(f'[{source}] Vote service returned invalid response (status {resp.status_code}): {resp.text[:500]!r}')
         return False
 
     if result.get('success'):
-        logger.info(f'Vote: {result.get("message")}')
+        logger.info(f'[{source}] Vote: {result.get("message")}')
         return True
 
-    logger.warning(f'Vote failed: {result.get("message")}')
+    logger.warning(f'[{source}] Vote failed: {result.get("message")}')
     return False
 
 
-def vote(bot_id, cookie):
+def vote(bot_id, cookie, source='unknown'):
     with _lock:
         if _stop.is_set():
-            logger.warning('Vote skipped (stop requested)')
+            logger.warning(f'[{source}] Vote skipped (stop requested)')
             return False
-        return _vote(bot_id, cookie)
+        return _vote(bot_id, cookie, source)
