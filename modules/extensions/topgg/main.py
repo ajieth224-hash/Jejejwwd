@@ -32,7 +32,7 @@ def read_accounts():
 
 def vote_account(bot_id, cookie):
     logger.info(f'Voting for bot {bot_id}')
-    if topgg.vote(bot_id, cookie):
+    if topgg.vote(bot_id, cookie, source='topgg.txt'):
         logger.info('Voted (next in 12h)')
         return 12 * 3600
     return 0
